@@ -1,13 +1,25 @@
-import java.io.File;
-import java.io.FileWriter;
-import java.io.FileReader;
-import java.io.BufferedReader;
+import java.io.*;
 import javax.swing.JOptionPane;
 public class FlatNote {
-    public static String strFilePath;
+    public static String strFilePath="/home";
     public static void main(String[] args) {
-        //создаем нужные нам окна.
         FrmMainWindow mainwindow = new FrmMainWindow();
+        FileWriter nFile = null;
+        try {
+            nFile = new FileWriter("Hello.txt");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            nFile.write("Добро пожаловть!\nЭто тестовый файл!");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            nFile.close();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
         mainwindow.loadmagic();
     }
     private static String osCheck(){
@@ -17,7 +29,7 @@ public class FlatNote {
     public static void NewNotebook(String varNotbookloc){
         try {
             //Этот метод создает новый блокнот
-            String strNotebookName ="/"+varNotbookloc;
+            String strNotebookName =strFilePath+"/"+varNotbookloc;
             // смотрим, существует ли
             File objNote = new File(strNotebookName);
             //Проверка, что папка уже существует.
@@ -34,7 +46,7 @@ public class FlatNote {
         }
     }
     public static int NewNote(String[] NoteComp){
-        String strNoteLocation = "/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
+        String strNoteLocation = strFilePath+"/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
         int rtnInt = 0;
         try{
             objMessage alertBox = new objMessage();
@@ -52,7 +64,7 @@ public class FlatNote {
         return rtnInt;
     }
     public static String[] readNote(String[] NoteComp){
-        String strNoteLocation = "/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
+        String strNoteLocation =strFilePath+ "/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
         String[] rtnNoteComp = new String[3];
         rtnNoteComp[0] = NoteComp[0];
         rtnNoteComp[1] = NoteComp[1];
@@ -74,7 +86,7 @@ public class FlatNote {
     }
     public static void SaveNote(String[] NoteComp){
         // Создаем полный путь к файлу note.txt
-        String strNoteLocation = "/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
+        String strNoteLocation = strFilePath+"/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
         try{
             objMessage alertBox = new objMessage();
             File objNote = new File(strNoteLocation);
@@ -105,7 +117,7 @@ public class FlatNote {
     }
     public static void DeleteNote(String[] NoteComp){
         try{
-            String strNoteAddress = "/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
+            String strNoteAddress =strFilePath+ "/"+NoteComp[0]+"/"+NoteComp[1]+".txt";
             File objNote = new File(strNoteAddress);
             objNote.delete();
         }
